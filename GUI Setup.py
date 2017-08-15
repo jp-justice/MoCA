@@ -5,6 +5,7 @@ root = Tk()
 root.minsize(width=800, height=500)
 
 help ="""
+---Help Commands:---
 
 add = Add new movie to Database
 close = Close the program.
@@ -15,6 +16,7 @@ search = Look up movie to see if it is already in database
 """
 
 def getHelp():
+    outputBox.delete(1.0, END)
     outputBox.insert(INSERT, help)
 
 def getMovie():
