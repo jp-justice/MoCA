@@ -3,6 +3,7 @@ from sys import *
 
 root = Tk()
 root.minsize(width=800, height=500)
+root.title("Movie Collection Assistant")
 
 help ="""
 ---Help Commands:---
@@ -65,23 +66,22 @@ def movieClose():
     root.after(1000)
     root.destroy()
     
-menu = Menu(root)
+
 
 menu = Menu(root)
 root.config(menu=menu)
 
-subMenu = Menu(menu)
+subMenu = Menu(menu, tearoff=0)
 menu.add_cascade(label="File", menu=subMenu)
 subMenu.add_command(label="Help", command=getHelp)
-subMenu.add_separator()
 subMenu.add_command(label="Close", command=movieClose)
 
-editMenu = Menu(menu)
+editMenu = Menu(menu, tearoff=0)
 menu.add_cascade(label="Edit", menu=editMenu)
 editMenu.add_command(label="Redo", command=getHelp)
 
-separator = Frame(height=2, bd=1, relief=RAISED)
-separator.pack(fill=X)
+#separator = Frame(height=2, bd=1, relief=RAISED)
+#separator.pack(fill=X)
 
 
 inputFrame = Frame(root).pack(side=BOTTOM)
@@ -101,7 +101,7 @@ collection = Button(navFrame, text="Collection", height=5, command=getMovie).pac
 #User input bar
 #Search Bar
 
-root.title("Movie Collection Assistant")
+
 root.mainloop()
 
 
