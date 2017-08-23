@@ -15,6 +15,28 @@ remove = Remove movie from Database
 search = Look up movie to see if it is already in database
 
 """
+def addMovie():
+    outputBox.delete(1.0, END)
+    outputBox.insert(INSERT, '---Congratulations on your new movie!---')
+    newMovie = input('---What is the name of the movie?---')
+    with open("Movie Data.txt", 'r') as f:
+        if newMovie in f.read():
+            print('---That movie is already in the database.---')
+        else:
+            if newMovie.startswith('The ' or 'the '):
+                newMovie = newMovie.lstrip('The ' or 'the ')
+                newMovie = newMovie + ', The'
+                movieData = open('Movie Data.txt', 'a')
+                movieData.write(newMovie + "\n")
+                movieData.close()
+                print('---New movie successfully added to database! Thank you!---')
+            else:
+                movieData = open('Movie Data.txt', 'a')
+                movieData.write(newMovie + "\n")
+                movieData.close()
+                print('---New movie successfully added to database! Thank you!---')
+
+
 
 def getHelp():
     outputBox.delete(1.0, END)
@@ -65,7 +87,10 @@ def removeMovie():
 def movieClose():
     root.after(1000)
     root.destroy()
-    
+
+def goHome():
+    outputBox.delete(1.0, END)
+    outputBox.insert(INSERT, "---Welcome to the Movie Collection Assistant!---")
 
 
 menu = Menu(root)
@@ -93,7 +118,8 @@ outputBox.pack(side=RIGHT, padx=10, pady=10)
 
 #Left Side Navigation Ribbon
 navFrame = Frame(inputFrame).pack(side=LEFT)
-add = Button(navFrame, text="Add", height=5).pack(side=TOP, padx=5, anchor=E, fill=X)
+home = add = Button(navFrame, text="Home", command=goHome, height=5).pack(side=TOP, padx=5, anchor=E, fill=X)
+add = Button(navFrame, text="Add", height=5, command=addMovie).pack(side=TOP, padx=5, anchor=E, fill=X)
 remove = Button(navFrame, text="Remove", height=5, command=removeMovie).pack(side=TOP, padx=5, anchor=E, fill=X)
 collection = Button(navFrame, text="Collection", height=5, command=getMovie).pack(side=TOP, padx=5, anchor=E, fill=X)
 #more buttons can go here
