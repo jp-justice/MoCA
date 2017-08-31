@@ -3,7 +3,7 @@ from sys import *
 import bs4 as bs
 import urllib.request
 
-
+#initial TK stuff
 root = Tk()
 root.minsize(height=600, width=900)
 root.title("Movie Collection Assistant")
@@ -103,8 +103,8 @@ def goHome():
     outputBox.delete(1.0, END)
     outputBox.insert(INSERT, "---Welcome to the Movie Collection Assistant!---")
 
-
-menu = Menu(root)
+#File Bar
+"""menu = Menu(root)
 root.config(menu=menu)
 
 subMenu = Menu(menu, tearoff=0)
@@ -115,26 +115,29 @@ subMenu.add_command(label="Close", command=movieClose)
 editMenu = Menu(menu, tearoff=0)
 menu.add_cascade(label="Edit", menu=editMenu)
 editMenu.add_command(label="Redo", command=getHelp)
+"""
+#Frames
+top_frame = Frame(root)
+input_frame = Frame(root)
+bottom_frame = Frame(root)
 
-
-inputFrame = Frame(root).pack(side=BOTTOM)
+#grid layout
+root.grid_rowconfigure(1, weight=1)
+root.grid_columnconfigure(0, weight=1)
 
 #Main input box
-outputBox = Text(inputFrame)
-outputBox.insert(INSERT, "-----Welcome to the Movie Collection Assistant!-----")
-outputBox.pack(side=RIGHT, padx=10, pady=10)
-usertext = StringVar()
-e = Entry(inputFrame, textvariable=usertext)
-e.pack(side=BOTTOM)
+outputBox = Text(input_frame, padx=0, pady=0)
+#outputBox.insert(INSERT, "-----Welcome to the Movie Collection Assistant!-----")
 
-#Left Side Navigation Ribbon
-navFrame = Frame(root).pack(side=LEFT)
-home = add = Button(navFrame, text="Home", command=goHome, height=5).pack(side=TOP, padx=5, anchor=E, fill=X)
-add = Button(navFrame, text="Add", height=5, command=addMovie).pack(side=TOP, padx=5, anchor=E, fill=X)
-remove = Button(navFrame, text="Remove", height=5, command=removeMovie).pack(side=TOP, padx=5, anchor=E, fill=X)
-collection = Button(navFrame, text="Collection", height=5, command=getMovie).pack(side=TOP, padx=5, anchor=E, fill=X)
-info = Button(navFrame, text="Info", height=5, command=itemInfo).pack(side=TOP, padx=5, anchor=E, fill=X)
+
+#Top Navigation Ribbon
+home = Button(top_frame, text="Home", height=2, width=10).grid(row=0, column=0)
+add = Button(top_frame, text="Add", height=2, width=10).grid(row=0, column=1)
+remove = Button(top_frame, text="Remove", height=2, width=10).grid(row=0, column=2)
+collection = Button(top_frame, text="Collection", height=2, width=10).grid(row=0, column=3)
+info = Button(top_frame, text="Info", height=2, width=10).grid(row=0, column=4)
 #more buttons can go here
+
 
 #User input bar
 
