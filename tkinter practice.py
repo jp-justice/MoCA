@@ -2,6 +2,9 @@ from tkinter import *
 from sys import *
 import bs4 as bs
 import urllib.request
+import sqlite3
+import time
+import datetime
 
 #initial tk stuff
 root = Tk()
@@ -12,6 +15,9 @@ root.title("Movie Collection Assistant")
 #color stuff
 outputBox_color= "#161616"
 
+#db connections
+conn = sqlite3.connect('movie.db')
+c = conn.cursor()
 
 #functions
 help ="""
@@ -25,6 +31,14 @@ search = Look up movie to see if it is already in database
 
 """
 
+def create_table():
+    c.execute('CREATE TABLE IF NOT EXISTS MovieCollection(name TEXT, timeStamp REAL)')
+    
+def read_all_from_db():
+    outputBox.delete(1.0, END)
+    c.execute("SELECT name FROM MovieCollection")
+    outputBox.insert(INSERT, c.fetchall())
+    
 def getHelp():
     outputBox.delete(1.0, END)
     outputBox.insert(INSERT, help)
@@ -39,17 +53,17 @@ def close():
     root.after(500)
     root.destroy()
 
-def getMovie():
-    with open("Movie Data.txt", 'r+') as f:
-        outputBox.delete(1.0, END)
-        mylist = f.read().splitlines()
-        mylist = sorted(set(mylist))
-        f.truncate()
-        outputBox.insert(INSERT, "---Movie Collection---\n")
-        for i in mylist:
-            outputBox.insert(INSERT, i + "\n")
-        outputBox.insert(INSERT, '\n---END OF LIST---')
-        f.close()
+##def getMovie():
+##    with open("Movie Data.txt", 'r+') as f:
+##        outputBox.delete(1.0, END)
+##        mylist = f.read().splitlines()
+##        mylist = sorted(set(mylist))
+##        f.truncate()
+##        outputBox.insert(INSERT, "---Movie Collection---\n")
+##        for i in mylist:
+##            outputBox.insert(INSERT, i + "\n")
+##        outputBox.insert(INSERT, '\n---END OF LIST---')
+##        f.close()
 
 def removeMovie():
     name = input('---Please input the name of the movie that you would like to remove.---')
@@ -118,7 +132,7 @@ subMenu.add_command(label="Close", command=close)
 home = Button(top_frame, text="Home", height=2, width=10, command=goHome, bg=outputBox_color, fg="white").grid(row=0, column=0)
 add = Button(top_frame, text="Add", height=2, width=10, command=addMovie, bg=outputBox_color, fg="white").grid(row=0, column=1)
 remove = Button(top_frame, text="Remove", height=2, width=10, command=removeMovie, bg=outputBox_color, fg="white").grid(row=0, column=2)
-collection = Button(top_frame, text="Collection", height=2, width=10, command=getMovie, bg=outputBox_color, fg="white").grid(row=0, column=3)
+collection = Button(top_frame, text="Collection", height=2, width=10, command=read_all_from_db, bg=outputBox_color, fg="white").grid(row=0, column=3)
 info = Button(top_frame, text="Info", height=2, width=10, bg=outputBox_color, fg="white").grid(row=0, column=4)
 
 

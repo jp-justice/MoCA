@@ -2,6 +2,9 @@ from tkinter import *
 from sys import *
 import bs4 as bs
 import urllib.request
+import sqlite3
+import time
+import datetime
 
 #initial TK stuff
 root = Tk()
@@ -19,6 +22,15 @@ search = Look up movie to see if it is already in database
 
 """
 
+def create_table():
+    c.execute('CREATE TABLE IF NOT EXISTS MovieCollection(name TEXT, timeStamp REAL)')
+    
+def read_all_from_db():
+    outputBox.delete(1.0, END)
+    c.execute("SELECT name FROM MovieCollection")
+    outputBox.insert(INSERT, c.fetchall())
+    conn.close()
+    
 def itemInfo():
     outputBox.delete(1.0, END)
     movie_url = input('---What is the IMDB URL for your movie?---\n')
